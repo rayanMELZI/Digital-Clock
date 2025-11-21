@@ -21,26 +21,29 @@ h2{
 .clock{
     display: flex;
     position: relative;
+    width: 80%;
+    height: 50%;
 }
 .clock div{
     margin: 5px;
+    width: 100%;
 }
-.clock span{
-    width: 100px;
-    height: 80px;
+.clock span:not(last-child){
+    width: 100%;
+    height: 85%;
     background-color: slateblue;
     opacity: .8;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 50px;
+    font-size: 700%;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 
 }
 .clock .text{
-    height: 30px;
-    font-size: 10px;
+    height: 15%;
+    font-size: 100%;
     text-transform: uppercase;
     letter-spacing: 2px;
     background: darkblue;
@@ -55,4 +58,18 @@ h2{
     font-size: 20px;
     background-color: darkblue;
     opacity:  0.55;
+}
+
+.clock div:last-child{
+    width: 0px;
+}
+
+#fullscreen-btn{
+    position: absolute;
+    color: darkmagenta;
+    top: 10px;
+    right:10px;
+    background: none;
+    border: none;
+    cursor: cell;
 }
