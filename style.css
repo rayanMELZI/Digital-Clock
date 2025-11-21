@@ -10,6 +10,10 @@ body{
     background-size: cover;
     overflow: hidden;
 }
+body::backdrop{
+    background: url("https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80");
+    background-size: cover;
+}
 
 h2{
     text-transform: uppercase;
@@ -73,3 +77,4 @@ h2{
     border: none;
     cursor: cell;
 }
+
