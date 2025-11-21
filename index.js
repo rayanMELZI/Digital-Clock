@@ -32,3 +32,24 @@ function updateClock(){
 }
 
 updateClock()
+
+const fullscreenButton = document.getElementById('fullscreen-btn');
+const elementToFullScreen = document.body; // You want the whole page to go fullscreen
+
+fullscreenButton.addEventListener('click', () => {
+    // Check if the page is already in fullscreen mode
+    if (document.fullscreenElement) {
+        // Exit fullscreen if it's already active
+        document.exitFullscreen();
+    } else {
+        // Request fullscreen mode for the element
+        // You may need vendor prefixes for older browsers (e.g., -webkit, -moz, -ms)
+        if (elementToFullScreen.requestFullscreen) {
+            elementToFullScreen.requestFullscreen();
+        } else if (elementToFullScreen.webkitRequestFullscreen) { /* Safari */
+            elementToFullScreen.webkitRequestFullscreen();
+        } else if (elementToFullScreen.msRequestFullscreen) { /* IE11 */
+            elementToFullScreen.msRequestFullscreen();
+        }
+    }
+});
