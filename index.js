@@ -37,19 +37,45 @@ const fullscreenButton = document.getElementById('fullscreen-btn');
 const elementToFullScreen = document.body; // You want the whole page to go fullscreen
 
 fullscreenButton.addEventListener('click', () => {
-    // Check if the page is already in fullscreen mode
     if (document.fullscreenElement) {
-        // Exit fullscreen if it's already active
+        // EXIT FULLSCREEN
         document.exitFullscreen();
+        releaseWakeLock(); // <--- Release the lock when exiting
     } else {
-        // Request fullscreen mode for the element
-        // You may need vendor prefixes for older browsers (e.g., -webkit, -moz, -ms)
-        if (elementToFullScreen.requestFullscreen) {
-            elementToFullScreen.requestFullscreen();
-        } else if (elementToFullScreen.webkitRequestFullscreen) { /* Safari */
-            elementToFullScreen.webkitRequestFullscreen();
-        } else if (elementToFullScreen.msRequestFullscreen) { /* IE11 */
-            elementToFullScreen.msRequestFullscreen();
-        }
+        // ENTER FULLSCREEN
+        elementToFullScreen.requestFullscreen().then(() => {
+            requestWakeLock(); // <--- Request the lock when entering
+        }).catch(err => {
+            console.error('Fullscreen request failed:', err);
+        });
     }
 });
+
+let wakeLock = null;
+
+// Asynchronous function to request the screen wake lock
+const requestWakeLock = async () => {
+  try {
+    // Request a 'screen' type lock
+    wakeLock = await navigator.wakeLock.request('screen');
+    console.log('Screen Wake Lock is active!');
+
+    // Add a listener to re-acquire the lock if it's released by the system
+    wakeLock.addEventListener('release', () => {
+      console.log('Wake Lock was released by the system.');
+    });
+
+  } catch (err) {
+    // This often fails if the device is in low power mode or the user denies permission.
+    console.error(`Wake Lock failed: ${err.name}, ${err.message}`);
+  }
+};
+
+// Function to release the screen wake lock
+const releaseWakeLock = async () => {
+  if (wakeLock) {
+    await wakeLock.release();
+    wakeLock = null;
+    console.log('Screen Wake Lock is released.');
+  }
+};
